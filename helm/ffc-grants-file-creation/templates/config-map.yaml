@@ -3,4 +3,8 @@
 data:
   NODE_ENV: {{ quote .Values.environment }}
   PORT: {{ quote .Values.container.port }}
+  FILE_CREATED_TOPIC_ADDRESS: {{ quote .Values.container.fileCreatedTopicAddress }}
+  DESIRABILITY_SUBMITTED_TOPIC_ADDRESS: {{ quote .Values.container.desirabilitySubmittedTopicAddress }}
+  DESIRABILITY_SUBMITTED_SUBSCRIPTION_ADDRESS: {{ quote .Values.container.desirabilitySubmittedSubscriptionAddress }}
+  SERVICE_BUS_HOST: {{ quote .Values.container.messageQueueHost }}
 {{- end -}}

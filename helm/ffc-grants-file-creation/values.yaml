@@ -31,6 +31,10 @@ container:
   readOnlyRootFilesystem: true
   allowPrivilegeEscalation: false
   port: 3000
+  messageQueueHost: dummy
+  desirabilitySubmittedTopicAddress: desirability-submitted
+  desirabilitySubmittedSubscriptionAddress: desirability-notification
+  fileCreatedTopicAddress: file-created
 
 livenessProbe:
   path: /healthz
