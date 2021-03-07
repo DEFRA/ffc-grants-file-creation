@@ -1,0 +1,4 @@
+resources:
+  topics:
+    - name: fileCreated
+    - name: desireSubmit

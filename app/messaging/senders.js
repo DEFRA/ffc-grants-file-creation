@@ -30,7 +30,7 @@ async function sendMsg (sender, msgData, msgType) {
 }
 
 module.exports = {
-  fileCreated: async function (fileCreatedData) {
+  sendFileCreated: async function (fileCreatedData) {
     await sendMsg(fileCreatedSender, fileCreatedData, msgCfg.fileCreatedMsgType)
   }
 }

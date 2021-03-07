@@ -7,7 +7,7 @@ const sharedConfig = {
 }
 
 module.exports = {
-  notificationSubscription: {
+  submissionSubscription: {
     address: process.env.DESIRABILITY_SUBMITTED_SUBSCRIPTION_ADDRESS,
     topic: process.env.DESIRABILITY_SUBMITTED_TOPIC_ADDRESS,
     type: 'subscription',
