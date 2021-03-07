@@ -10,8 +10,8 @@ module.exports = async function (msg, submissionReceiver) {
 
     await submissionReceiver.completeMessage(msg)
   } catch (err) {
-    console.err('Unable to process message')
-    console.err(err)
+    console.error('Unable to process message')
+    console.error(err)
     await submissionReceiver.abandonMessage(msg)
   }
 }
