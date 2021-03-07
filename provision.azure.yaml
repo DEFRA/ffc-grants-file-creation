@@ -1,4 +1,4 @@
 resources:
   topics:
     - name: fileCreated
-    - name: desirabilitySubmitted
+    - name: desireSubmit
