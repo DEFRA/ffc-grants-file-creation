@@ -1,16 +1,17 @@
-const { fileCreated } = require('./senders')
+const { sendFileCreated } = require('./senders')
 
-module.exports = async function (msg, notificationReceiver) {
+module.exports = async function (msg, submissionReceiver) {
   try {
     const { body } = msg
-    console.log(`Received message: ${body}`)
+    console.log('Received message:')
+    console.log(body)
 
-    await fileCreated({ test: 'File has been created' })
+    await sendFileCreated({ test: 'File has been created' })
 
-    await notificationReceiver.completeMessage(msg)
+    await submissionReceiver.completeMessage(msg)
   } catch (err) {
     console.err('Unable to process message')
     console.err(err)
-    await notificationReceiver.abandonMessage(msg)
+    await submissionReceiver.abandonMessage(msg)
   }
 }
