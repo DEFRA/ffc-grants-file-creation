@@ -6,6 +6,9 @@ const init = async () => {
 
   await server.start()
   console.log('Server running on %s', server.info.uri)
+
+  const { sendFileCreated } = require('./messaging/senders')
+  await sendFileCreated({ test: 'testing new access key' })
 }
 
 process.on('unhandledRejection', (err) => {
