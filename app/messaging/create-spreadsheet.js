@@ -19,15 +19,16 @@ async function createTest (body) {
   worksheet.addRow({ fieldName: 'Surname:', fieldValue: 'Bloggs' })
   worksheet.addRow({ fieldName: 'Forename:', fieldValue: 'Joe' })
   worksheet.addRow({ fieldName: 'Email:', fieldValue: 'joe.bloggs@example.com' })
-  worksheet.addRow({ fieldName: 'Blah:', fieldValue: 'wooo' })
+  worksheet.addRow({ fieldName: 'Blah:', fieldValue: 'running on k8s cluster' })
+  worksheet.addRow({ fieldName: 'Extra:', fieldValue: 'this was pushed to blobby store' })
 
   const buffer = await workbook.xlsx.writeBuffer()
 
   const { BlobServiceClient } = require('@azure/storage-blob')
   const connStr = process.env.BLOB_STORAGE_CONNECTION_STRING
   const blobServiceClient = BlobServiceClient.fromConnectionString(connStr)
-  const containerClient = blobServiceClient.getContainerClient('blah')
-  const blockBlobClient = containerClient.getBlockBlobClient('test-paul2.xlsx')
+  const containerClient = blobServiceClient.getContainerClient('paul-test')
+  const blockBlobClient = containerClient.getBlockBlobClient('test-paul4.xlsx')
 
   // Upload data to the blob
   const uploadBlobResponse = await blockBlobClient.upload(buffer, buffer.byteLength)
@@ -41,8 +42,7 @@ module.exports = async function (msg, submissionReceiver) {
     console.log('Received message:')
     console.log(body)
 
-    console.log(`Created ${await createTest(body)}`)
-
+    await createTest(body)
     await sendFileCreated({ test: 'File has been created' })
 
     await submissionReceiver.completeMessage(msg)

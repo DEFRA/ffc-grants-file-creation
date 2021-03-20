@@ -42,6 +42,7 @@ container:
   desirabilitySubmittedTopicAddress: desirability-submitted
   desirabilitySubmittedSubscriptionAddress: desirability-notification
   fileCreatedTopicAddress: file-created
+  blobStorageConnectionString: blobby-blob
 
 livenessProbe:
   path: /healthz
