@@ -17,8 +17,10 @@ async function createTest (body) {
 
   worksheet.getRow(1).font = { bold: true }
 
-  Object.entries(body.applicationDetails)
-    .forEach(([fieldName, fieldValue]) => worksheet.addRow({ fieldName, fieldValue }))
+  body.applicationDetails.rows.forEach(rowDetails => {
+    const row = worksheet.getRow(rowDetails.row)
+    row.values = { fieldName: rowDetails.key, fieldValue: rowDetails.value }
+  })
 
   const buffer = await workbook.xlsx.writeBuffer()
 
