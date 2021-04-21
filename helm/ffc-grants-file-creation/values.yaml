@@ -6,6 +6,9 @@ image: ffc-grants-file-creation
 
 labels: {}
 
+appInsights:
+  key: not-a-real-key
+  
 azureIdentity:
   clientID: not-a-real-clientID
   resourceID: not-a-real-resourceID
