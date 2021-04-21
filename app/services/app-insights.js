@@ -2,7 +2,7 @@ const appInsights = require('applicationinsights')
 const config = require('../config/messaging')
 
 function setup () {
-  if (config.appInsights.key | config.appInsights) {
+  if (config.appInsights && config.appInsights.key) {
     appInsights.setup().start()
     const cloudRoleTag = appInsights.defaultClient.context.keys.cloudRole
     const appName = config.appInsights.role
