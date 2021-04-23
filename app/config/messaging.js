@@ -1,5 +1,8 @@
 const sharedConfig = {
-  appInsights: require('applicationinsights'),
+  appInsights: {
+    key: process.env.APPINSIGHTS_INSTRUMENTATIONKEY,
+    role: process.env.APPINSIGHTS_CLOUDROLE | 'ffc-grants-file-creation'
+  },
   host: process.env.SERVICE_BUS_HOST,
   password: process.env.SERVICE_BUS_PASSWORD,
   username: process.env.SERVICE_BUS_USER,
@@ -19,9 +22,5 @@ module.exports = {
     ...sharedConfig
   },
   fileCreatedMsgType: 'uk.gov.ffc.grants.file.created',
-  msgSrc: 'ffc-grants-file-creation',
-  appInsights: {
-    key: process.env.APPINSIGHTS_INSTRUMENTATIONKEY,
-    role: process.env.APPINSIGHTS_CLOUDROLE | 'ffc-grants-file-creation'
-  }
+  msgSrc: 'ffc-grants-file-creation'
 }
