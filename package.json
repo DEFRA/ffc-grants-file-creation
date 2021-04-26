@@ -1,6 +1,6 @@
 {
   "name": "ffc-grants-file-creation",
-  "version": "1.1.2",
+  "version": "1.2.0",
   "description": "FFC Grants file creation microservice",
   "homepage": "https://github.com/DEFRA/ffc-grants-file-creation",
   "main": "app/index.js",

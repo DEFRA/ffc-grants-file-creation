@@ -7,4 +7,5 @@ data:
   DESIRABILITY_SUBMITTED_TOPIC_ADDRESS: {{ quote .Values.container.desirabilitySubmittedTopicAddress }}
   DESIRABILITY_SUBMITTED_SUBSCRIPTION_ADDRESS: {{ quote .Values.container.desirabilitySubmittedSubscriptionAddress }}
   SERVICE_BUS_HOST: {{ quote .Values.container.messageQueueHost }}
+  APPINSIGHTS_CLOUDROLE: {{ quote .Values.name }}
 {{- end -}}

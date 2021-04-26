@@ -6,12 +6,19 @@ image: ffc-grants-file-creation
 
 labels: {}
 
+appInsights:
+  key: not-a-real-key
+  
 azureIdentity:
   clientID: not-a-real-clientID
   resourceID: not-a-real-resourceID
 
 containerConfigMap:
   name: ffc-grants-file-creation-config-map
+
+containerSecret:
+  name: ffc-grants-file-creation-container-secret
+  type: Opaque
 
 deployment:
   restartPolicy: Always
