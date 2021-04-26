@@ -16,6 +16,10 @@ azureIdentity:
 containerConfigMap:
   name: ffc-grants-file-creation-config-map
 
+containerSecret:
+  name: ffc-grants-file-creation-container-secret
+  type: Opaque
+
 deployment:
   restartPolicy: Always
   priorityClassName: default
