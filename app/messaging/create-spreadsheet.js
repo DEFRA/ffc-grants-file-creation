@@ -1,5 +1,7 @@
-const { sendFileCreated } = require('./senders')
 const ExcelJS = require('exceljs')
+const { BlobServiceClient } = require('@azure/storage-blob')
+const blobStorageConfig = require('../config/blobStorage')
+const { sendFileCreated } = require('./senders')
 
 async function addWorksheet (workbook, worksheetData) {
   const worksheet = workbook.addWorksheet(worksheetData.title)
@@ -36,7 +38,7 @@ async function addWorksheet (workbook, worksheetData) {
   }
 }
 
-async function createTest (spreadsheetData) {
+async function createSpreadsheet (spreadsheetData) {
   const workbook = new ExcelJS.Workbook()
   workbook.creator = 'ffc-grants-file-creation'
   workbook.created = new Date()
@@ -46,12 +48,12 @@ async function createTest (spreadsheetData) {
   }
 
   const buffer = await workbook.xlsx.writeBuffer()
+  return buffer
+}
 
-  const filename = spreadsheetData.filename
-  const { BlobServiceClient } = require('@azure/storage-blob')
-  const connStr = process.env.BLOB_STORAGE_CONNECTION_STRING
-  const blobServiceClient = BlobServiceClient.fromConnectionString(connStr)
-  const containerClient = blobServiceClient.getContainerClient('paul-test')
+async function uploadSpreadsheet (buffer, filename) {
+  const blobServiceClient = BlobServiceClient.fromConnectionString(blobStorageConfig.connectionStr)
+  const containerClient = blobServiceClient.getContainerClient(blobStorageConfig.containerName)
   const blockBlobClient = containerClient.getBlockBlobClient(filename)
 
   // Upload data to the blob
@@ -68,7 +70,11 @@ module.exports = async function (msg, submissionReceiver) {
     console.log('Received message:')
     console.log(JSON.stringify(body, null, 2))
 
-    const filename = await createTest(body.spreadsheet)
+    const spreadSheetBuffer = await createSpreadsheet(body.spreadsheet)
+
+    const filename = body.spreadsheet.filename
+    await uploadSpreadsheet(spreadSheetBuffer, filename)
+
     await sendFileCreated({ filename })
 
     await submissionReceiver.completeMessage(msg)
