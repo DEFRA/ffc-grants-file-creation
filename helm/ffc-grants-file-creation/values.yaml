@@ -8,7 +8,7 @@ labels: {}
 
 appInsights:
   key: not-a-real-key
-  
+
 azureIdentity:
   clientID: not-a-real-clientID
   resourceID: not-a-real-resourceID
@@ -43,6 +43,7 @@ container:
   desirabilitySubmittedSubscriptionAddress: desirability-notification
   fileCreatedTopicAddress: file-created
   blobStorageConnectionString: blobby-blob
+  blobStorageContainerName: not-a-real-container
 
 livenessProbe:
   path: /healthz
