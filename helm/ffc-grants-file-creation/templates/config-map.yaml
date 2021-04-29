@@ -8,4 +8,5 @@ data:
   DESIRABILITY_SUBMITTED_SUBSCRIPTION_ADDRESS: {{ quote .Values.container.desirabilitySubmittedSubscriptionAddress }}
   SERVICE_BUS_HOST: {{ quote .Values.container.messageQueueHost }}
   APPINSIGHTS_CLOUDROLE: {{ quote .Values.name }}
+  BLOB_STORAGE_CONTAINER_NAME: {{ .Values.container.blobStorageContainerName | quote }}
 {{- end -}}

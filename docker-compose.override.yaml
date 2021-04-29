@@ -7,6 +7,8 @@ services:
   ffc-grants-file-creation:
     build:
       target: development
+    depends_on:
+      - azurite
     image: ffc-grants-file-creation-development
     container_name: ffc-grants-file-creation-development
     ports:
@@ -15,3 +17,14 @@ services:
     volumes:
       - ./app/:/home/node/app/
       - ./package.json:/home/node/package.json
+
+  azurite:
+    image: mcr.microsoft.com/azure-storage/azurite
+    volumes:
+      - azurite_data:/data
+    ports:
+      - "10000:10000"
+      - "10001:10001"
+
+volumes:
+  azurite_data:
