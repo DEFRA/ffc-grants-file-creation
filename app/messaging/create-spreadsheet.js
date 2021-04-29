@@ -60,8 +60,6 @@ async function uploadSpreadsheet (buffer, filename) {
   const uploadBlobResponse = await blockBlobClient.upload(buffer, buffer.byteLength)
   console.log('Blob was uploaded successfully')
   console.log(uploadBlobResponse)
-
-  return filename
 }
 
 module.exports = async function (msg, submissionReceiver) {
@@ -75,7 +73,7 @@ module.exports = async function (msg, submissionReceiver) {
     const filename = body.spreadsheet.filename
     await uploadSpreadsheet(spreadSheetBuffer, filename)
 
-    await sendFileCreated({ filename })
+    await sendFileCreated({ filename, uploadLocation: body.spreadsheet.uploadLocation })
 
     await submissionReceiver.completeMessage(msg)
   } catch (err) {
