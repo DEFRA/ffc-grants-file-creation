@@ -2,7 +2,7 @@ const ExcelJS = require('exceljs')
 const { BlobServiceClient } = require('@azure/storage-blob')
 const blobStorageConfig = require('../config/blobStorage')
 const { sendFileCreated } = require('./senders')
-
+const appInsights = require('../services/app-insights')
 async function addWorksheet (workbook, worksheetData) {
   const worksheet = workbook.addWorksheet(worksheetData.title)
 
@@ -77,6 +77,7 @@ module.exports = async function (msg, submissionReceiver) {
 
     await submissionReceiver.completeMessage(msg)
   } catch (err) {
+    appInsights.logException(err, msg?.correlationId)
     console.error('Unable to process message')
     console.error(err)
     await submissionReceiver.abandonMessage(msg)
