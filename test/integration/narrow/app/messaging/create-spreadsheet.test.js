@@ -21,9 +21,36 @@ describe('Upload to create spreadsheet tests', () => {
     const createSpreadsheet = require('../../../../../app/messaging/create-spreadsheet')
     expect(createSpreadsheet('', submissionReceiver)).toBeDefined()
   })
+  test('Should run successfully', async () => {
+    const createSpreadsheet = require('../../../../../app/messaging/create-spreadsheet')
+    await expect(createSpreadsheet({
+      correlationId: '12341234',
+      body: {
+        spreadsheet: {
+          worksheets: [
+            {
+              title: '',
+              defaultColumnWidth: 123,
+              protectPassword: '123123',
+              rows: [
+                { row: {} }
+              ],
+              hideEmptyRows: null
+            }
+          ]
+        }
+      }
+    }, submissionReceiver)).resolves.toBe(undefined)
+  })
   test('Should throw error', async () => {
     const createSpreadsheet = require('../../../../../app/messaging/create-spreadsheet')
     await expect(createSpreadsheet('', null)).rejected
     expect(appInsights.logException).toHaveBeenCalledTimes(1)
+  })
+  test('Should throw error call abandonMessage', async () => {
+    const createSpreadsheet = require('../../../../../app/messaging/create-spreadsheet')
+    await expect(createSpreadsheet('', submissionReceiver)).rejected
+    expect(appInsights.logException).toHaveBeenCalledTimes(1)
+    expect(submissionReceiver.abandonMessage).toHaveBeenCalledTimes(1)
   })
 })

@@ -5,7 +5,7 @@ const { sendFileCreated } = require('./senders')
 const appInsights = require('../services/app-insights')
 async function addWorksheet (workbook, worksheetData) {
   const worksheet = workbook.addWorksheet(worksheetData.title)
-
+  console.log(worksheet.properties)
   if (worksheetData.defaultColumnWidth) {
     worksheet.properties.defaultColWidth = worksheetData.defaultColumnWidth
   }
@@ -78,8 +78,8 @@ module.exports = async function (msg, submissionReceiver) {
     await submissionReceiver.completeMessage(msg)
   } catch (err) {
     appInsights.logException(err, msg?.correlationId)
+    await submissionReceiver.abandonMessage(msg)
     console.error('Unable to process message')
     console.error(err)
-    await submissionReceiver.abandonMessage(msg)
   }
 }
