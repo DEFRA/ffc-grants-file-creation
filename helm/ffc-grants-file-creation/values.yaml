@@ -42,8 +42,10 @@ container:
   desirabilitySubmittedTopicAddress: desirability-submitted
   desirabilitySubmittedSubscriptionAddress: desirability-notification
   fileCreatedTopicAddress: file-created
-  blobStorageConnectionString: blobby-blob
+  blobStorageAccountName: blob-account
   blobStorageContainerName: not-a-real-container
+  blobStorageConnectionString: dummy
+  useBlobStorageConnectionString: false
 
 livenessProbe:
   path: /healthz

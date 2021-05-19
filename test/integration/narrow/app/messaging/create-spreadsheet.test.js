@@ -4,7 +4,7 @@ afterEach(() => {
 })
 describe('Upload to create spreadsheet tests', () => {
   jest.mock('exceljs')
-  jest.mock('../../../../../app/config/blobStorage')
+  jest.mock('../../../../../app/config/blob-storage')
   jest.mock('../../../../../app/messaging/senders')
   jest.mock('@azure/storage-blob')
   const appInsights = require('../../../../../app/services/app-insights')
