@@ -1,8 +1,8 @@
 const ExcelJS = require('exceljs')
-const { BlobServiceClient } = require('@azure/storage-blob')
-const blobStorageConfig = require('../config/blobStorage')
 const { sendFileCreated } = require('./senders')
 const appInsights = require('../services/app-insights')
+const blobStorage = require('../services/blob-storage')
+
 async function addWorksheet (workbook, worksheetData) {
   const worksheet = workbook.addWorksheet(worksheetData.title)
   console.log(worksheet.properties)
@@ -51,17 +51,6 @@ async function createSpreadsheet (spreadsheetData) {
   return buffer
 }
 
-async function uploadSpreadsheet (buffer, filename) {
-  const blobServiceClient = BlobServiceClient.fromConnectionString(blobStorageConfig.connectionStr)
-  const containerClient = blobServiceClient.getContainerClient(blobStorageConfig.containerName)
-  const blockBlobClient = containerClient.getBlockBlobClient(filename)
-
-  // Upload data to the blob
-  const uploadBlobResponse = await blockBlobClient.upload(buffer, buffer.byteLength)
-  console.log('Blob was uploaded successfully')
-  console.log(uploadBlobResponse)
-}
-
 module.exports = async function (msg, submissionReceiver) {
   try {
     const { body } = msg
@@ -71,7 +60,7 @@ module.exports = async function (msg, submissionReceiver) {
     const spreadSheetBuffer = await createSpreadsheet(body.spreadsheet)
 
     const filename = body.spreadsheet.filename
-    await uploadSpreadsheet(spreadSheetBuffer, filename)
+    await blobStorage.uploadFile(spreadSheetBuffer, filename)
 
     await sendFileCreated({ filename, uploadLocation: body.spreadsheet.uploadLocation })
 

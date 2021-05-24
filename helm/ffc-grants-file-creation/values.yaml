@@ -23,11 +23,16 @@ containerSecret:
 deployment:
   restartPolicy: Always
   priorityClassName: default
-  replicas: 1
   minReadySeconds: 0
   redeployOnChange: update this field to force a change
   runAsNonRoot: true
-  runAsUser: 1000
+  runAsUser: 30306
+  replicas: 2
+  minReplicas: 2
+  maxReplicas: 3
+  cpuThreshold: 80
+  memoryThreshold: 80
+
 
 container:
   imagePullPolicy: IfNotPresent
@@ -42,8 +47,10 @@ container:
   desirabilitySubmittedTopicAddress: desirability-submitted
   desirabilitySubmittedSubscriptionAddress: desirability-notification
   fileCreatedTopicAddress: file-created
-  blobStorageConnectionString: blobby-blob
+  blobStorageAccountName: blob-account
   blobStorageContainerName: not-a-real-container
+  blobStorageConnectionString: dummy
+  useBlobStorageConnectionString: false
 
 livenessProbe:
   path: /healthz
