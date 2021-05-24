@@ -14,6 +14,10 @@ if (config.useConnectionStr) {
 
 const blobContainerClient = blobServiceClient.getContainerClient(config.containerName)
 
-module.exports = {
-  blobContainerClient
+async function uploadFile (buffer, filename) {
+  const blockBlobClient = blobContainerClient.getBlockBlobClient(filename)
+  await blockBlobClient.upload(buffer, buffer.byteLength)
+  console.log('Blob was uploaded successfully')
 }
+
+module.exports = { uploadFile }
