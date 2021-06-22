@@ -7,7 +7,7 @@ FFC Grants file creation microservice.
 - Access to an instance of an
 [Azure Service Bus](https://docs.microsoft.com/en-us/azure/service-bus-messaging/).
 - Access to an instance of an
-[Azure Storage account](https://docs.microsoft.com/en-us/azure/storage/common/storage-account-overview).
+[Azure Storage Account](https://docs.microsoft.com/en-us/azure/storage/common/storage-account-overview).
 - Docker
 - Docker Compose
 
@@ -35,7 +35,7 @@ and
 | DESIRABILITY_SUBMITTED_SUBSCRIPTION_ADDRESS |  |
 | FILE_CREATED_TOPIC_ADDRESS |  |
 
-### Environment variables
+### Azure Storage Account
 
 The following environment variables are required by the application container.
 Values for development are set in the Docker Compose configuration. Default
@@ -46,6 +46,8 @@ overridden by build and release pipelines.
 | --- | --- |
 | BLOB_STORAGE_CONNECTION_STRING | Connection string to Azure storage container |
 | BLOB_STORAGE_CONTAINER_NAME | Blob storage container in Azure storage account |
+
+The microservice can be configured to use [Managed Identity](https://docs.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/overview) credentials to authenticate with the Storage Account instead of a connection string.
 
 ## Running the application
 
