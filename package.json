@@ -14,7 +14,7 @@
   "license": "OGL-UK-3.0",
   "dependencies": {
     "@azure/identity": "^2.0.2",
-    "@azure/storage-blob": "^12.8.0",
+    "@azure/storage-blob": "^12.9.0",
     "@hapi/hapi": "^20.2.1",
     "applicationinsights": "^1.8.10",
     "exceljs": "^4.3.0",
