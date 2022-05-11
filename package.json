@@ -15,7 +15,7 @@
   "dependencies": {
     "@azure/identity": "^2.0.2",
     "@azure/storage-blob": "^12.8.0",
-    "@hapi/hapi": "^20.2.1",
+    "@hapi/hapi": "^20.2.2",
     "applicationinsights": "^1.8.10",
     "exceljs": "^4.3.0",
     "ffc-messaging": "^2.3.3",
