@@ -45,12 +45,6 @@ describe('Upload to create spreadsheet tests', () => {
     }, submissionReceiver)).resolves.toBe(undefined)
   })
 
-  test('Should throw error', async () => {
-    const createSpreadsheet = require('../../../../../app/messaging/create-spreadsheet')
-    await expect(createSpreadsheet('', null)).rejected
-    expect(appInsights.logException).toHaveBeenCalledTimes(1)
-  })
-
   test('Should throw error call abandonMessage', async () => {
     const createSpreadsheet = require('../../../../../app/messaging/create-spreadsheet')
     await expect(createSpreadsheet('', submissionReceiver)).rejected
