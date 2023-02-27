@@ -5,7 +5,7 @@ const blobStorage = require('../services/blob-storage')
 
 async function addWorksheet (workbook, worksheetData) {
   const worksheet = workbook.addWorksheet(worksheetData.title)
-  console.log(worksheet.properties)
+  console.log(worksheet.properties, '[WORKSHEET PROPERTIES]')
   if (worksheetData.defaultColumnWidth) {
     worksheet.properties.defaultColWidth = worksheetData.defaultColumnWidth
   }
@@ -66,6 +66,7 @@ module.exports = async function (msg, submissionReceiver) {
 
     await submissionReceiver.completeMessage(msg)
   } catch (err) {
+    console.log('ERROR STATED: ', err)
     appInsights.logException(err, msg?.correlationId)
     await submissionReceiver.abandonMessage(msg)
     console.error('Unable to process message')
