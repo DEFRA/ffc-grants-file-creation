@@ -41,14 +41,15 @@ describe('Upload to create spreadsheet tests', () => {
     }
   })
 
+  // mock senders
   const mockSendFileCreated = jest.fn(async (message) => { return null })
-
   jest.mock('../../../../../app/messaging/senders', () => {
     return {
       sendFileCreated: mockSendFileCreated
     }
   })
 
+  // mock app insights
   const appInsights = require('../../../../../app/services/app-insights')
   appInsights.logException = jest.fn((_err, _sessionId) => { })
   const submissionReceiver = {
@@ -56,17 +57,12 @@ describe('Upload to create spreadsheet tests', () => {
     abandonMessage: jest.fn(async (message) => { return null })
   }
 
-  test('Should be defined', () => { // LOL
-    const createSpreadsheet = require('../../../../../app/messaging/create-spreadsheet')
-    expect(createSpreadsheet).toBeDefined()
-  })
-
   test('Should not throw error', () => {
     const createSpreadsheet = require('../../../../../app/messaging/create-spreadsheet')
     expect(createSpreadsheet('', submissionReceiver)).toBeDefined()
   })
 
-  test('Should run successfully - ..AND create a file!', async () => {
+  test('Should run successfully - ..AND create a file, AND upload it, AND send it!', async () => {
     const createSpreadsheet = require('../../../../../app/messaging/create-spreadsheet')
     await createSpreadsheet({
       correlationId: '12341234',
@@ -94,7 +90,7 @@ describe('Upload to create spreadsheet tests', () => {
     expect(mockSendFileCreated).toHaveBeenCalledTimes(1) // sends the message
   })
 
-  test('Should throw error call abandonMessage', async () => { // this one actually ok!
+  test('Should throw error call abandonMessage', async () => { // this one's actually ok!
     const createSpreadsheet = require('../../../../../app/messaging/create-spreadsheet')
     await expect(createSpreadsheet('', submissionReceiver)).rejected
     expect(appInsights.logException).toHaveBeenCalledTimes(1)
