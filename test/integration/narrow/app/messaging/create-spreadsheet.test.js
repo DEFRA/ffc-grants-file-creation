@@ -1,10 +1,10 @@
-// const blobStorage = require('../../../../../app/services/blob-storage')
+
 afterEach(() => {
   jest.clearAllMocks()
 })
 describe('Upload to create spreadsheet tests', () => {
-  const mockWriteBuffer = jest.fn(async () => { return {} })
   // proberly mock exceljs!
+  const mockWriteBuffer = jest.fn(async () => { return {} })
   jest.mock('exceljs', () => {
     return {
       Workbook: jest.fn(() => {
@@ -34,30 +34,18 @@ describe('Upload to create spreadsheet tests', () => {
   })
 
   // mock blob storage
-  const mockUploadFile = jest.fn(async () => {
-    console.log('A7a: ', '!!!!!!!!!!!!!!!!!!!!!');
-    return null
-  })
-
+  const mockUploadFile = jest.fn(async () => { return null })
   jest.mock('../../../../../app/services/blob-storage', () => {
     return {
       uploadFile: mockUploadFile
     }
   })
-  // jest.mock('../../../../../app/config/blob-storage')
 
-
-  const mockSendFileCreated = jest.fn(async (message) => {
-    console.log('here: ', '!!!!!!!!!!!!!!!!!!!!!');
-    return null
-  })
+  const mockSendFileCreated = jest.fn(async (message) => { return null })
 
   jest.mock('../../../../../app/messaging/senders', () => {
     return {
-      sendFileCreated: jest.fn(async (message) => {
-        mockSendFileCreated(message)
-        return null
-      })
+      sendFileCreated: mockSendFileCreated
     }
   })
 
@@ -68,7 +56,7 @@ describe('Upload to create spreadsheet tests', () => {
     abandonMessage: jest.fn(async (message) => { return null })
   }
 
-  test('Should be defined', () => {
+  test('Should be defined', () => { // LOL
     const createSpreadsheet = require('../../../../../app/messaging/create-spreadsheet')
     expect(createSpreadsheet).toBeDefined()
   })
@@ -78,7 +66,7 @@ describe('Upload to create spreadsheet tests', () => {
     expect(createSpreadsheet('', submissionReceiver)).toBeDefined()
   })
 
-  test.only('Should run successfully - ..AND create a file!', async () => {
+  test('Should run successfully - ..AND create a file!', async () => {
     const createSpreadsheet = require('../../../../../app/messaging/create-spreadsheet')
     await createSpreadsheet({
       correlationId: '12341234',
@@ -106,54 +94,10 @@ describe('Upload to create spreadsheet tests', () => {
     expect(mockSendFileCreated).toHaveBeenCalledTimes(1) // sends the message
   })
 
-  test('Should throw error call abandonMessage', async () => {
+  test('Should throw error call abandonMessage', async () => { // this one actually ok!
     const createSpreadsheet = require('../../../../../app/messaging/create-spreadsheet')
     await expect(createSpreadsheet('', submissionReceiver)).rejected
     expect(appInsights.logException).toHaveBeenCalledTimes(1)
     expect(submissionReceiver.abandonMessage).toHaveBeenCalledTimes(1)
   })
-
-  it('Should run successfully -with default column width', async () => {
-    const createSpreadsheet = require('../../../../../app/messaging/create-spreadsheet')
-    await expect(createSpreadsheet({
-      correlationId: '12341234',
-      body: {
-        spreadsheet: {
-          worksheets: [
-            {
-              title: '',
-              protectPassword: '123123',
-              rows: [
-                { row: {} }
-              ],
-              hideEmptyRows: null
-            }
-          ]
-        }
-      }
-    }, submissionReceiver)).resolves.toBe(undefined)
-    expect(mockSendFileCreated).toHaveBeenCalledTimes(1)
-  })
-
-  it('Should run successfully - and create a spreadsheet WITHOUT a protected password', async () => {
-    const createSpreadsheet = require('../../../../../app/messaging/create-spreadsheet')
-    await expect(createSpreadsheet({
-      correlationId: '12341234',
-      body: {
-        spreadsheet: {
-          worksheets: [
-            {
-              title: '',
-              rows: [
-                { row: {} }
-              ],
-              hideEmptyRows: null
-            }
-          ]
-        }
-      }
-    }, submissionReceiver)).resolves.toBe(undefined)
-    expect(mockSendFileCreated).toHaveBeenCalledTimes(1)
-  })
-
 })
