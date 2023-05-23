@@ -3,30 +3,90 @@ const ffcMessaging = require('ffc-messaging')
 ffcMessaging.MessageSender = jest.fn().mockImplementation(() => {
   return {
     closeConnection: jest.fn(),
-    sendMessage: jest.fn(async (message) => {})
+    sendMessage: jest.fn(async (message) => { })
   }
 })
+
+const mockCloseConnection = jest.fn().mockImplementation(() => { return null })
+const mockSubscribe = jest.fn().mockImplementation(() => { return null })
 ffcMessaging.MessageReceiver = jest.fn().mockImplementation((queue, updateAction) => {
   return {
-    closeConnection: jest.fn(),
-    subscribe: jest.fn()
+    closeConnection: mockCloseConnection,
+    subscribe: mockSubscribe
   }
 })
-describe('messaging tests', () => {
-  test('Senders Should be defined', () => {
-    const senders = require('../../../../../app/messaging/senders')
-    expect(senders).toBeDefined()
+
+describe('messaging tests: Senders', () => {
+  afterEach(() => {
+    jest.clearAllMocks()
   })
-  test('Senders sendFileCreated Should not throw error', async () => {
-    const senders = require('../../../../../app/messaging/senders')
-    await expect(senders.sendFileCreated('', '')).resolves.not.toThrow()
+  test('Receiver Should be defined', () => {
+    const receivers = require('../../../../../app/messaging/senders')
+    expect(receivers).toBeDefined()
+  })
+
+  test('Receiver startSubmissionReceiver - Should call subscribe', async () => {
+    const senders = require('../../../../../app/messaging/receivers')
+    await expect(senders.startSubmissionReceiver('')).resolves.not.toThrow()
+    expect(mockSubscribe).toHaveBeenCalledTimes(1)
+    expect(mockCloseConnection).toHaveBeenCalledTimes(0)
+  })
+
+  test('Receiver startSubmissionReceiver - Should close connection on Should call SIGINT', async () => {
+    jest.spyOn(process, 'exit').mockImplementation()
+
+    require('../../../../../app/messaging/receivers')
+
+    process.emit('SIGINT');
+    expect(mockSubscribe).toHaveBeenCalledTimes(0)
+    expect(mockCloseConnection).toHaveBeenCalledTimes(1)
+  });
+
+  test('Receiver startSubmissionReceiver - Should close connection on Should call SIGTERM', async () => {
+    jest.spyOn(process, 'exit').mockImplementation()
+
+    require('../../../../../app/messaging/receivers')
+
+    process.emit('SIGTERM');
+    expect(mockSubscribe).toHaveBeenCalledTimes(0)
+    expect(mockCloseConnection).toHaveBeenCalledTimes(1)
+  });
+})
+
+
+describe('messaging tests: Recievers', () => {
+  afterEach(() => {
+    jest.clearAllMocks()
   })
   test('Receiver Should be defined', () => {
     const receivers = require('../../../../../app/messaging/receivers')
     expect(receivers).toBeDefined()
   })
-  test('Receiver startSubmissionReceiver Should not throw error', async () => {
+
+  test('Receiver startSubmissionReceiver - Should call subscribe', async () => {
     const receivers = require('../../../../../app/messaging/receivers')
     await expect(receivers.startSubmissionReceiver('')).resolves.not.toThrow()
+    expect(mockSubscribe).toHaveBeenCalledTimes(1)
+    expect(mockCloseConnection).toHaveBeenCalledTimes(0)
   })
+
+  test('Receiver startSubmissionReceiver - Should close connection on Should call SIGINT', async () => {
+    jest.spyOn(process, 'exit').mockImplementation()
+
+    require('../../../../../app/messaging/receivers')
+
+    process.emit('SIGINT');
+    expect(mockSubscribe).toHaveBeenCalledTimes(0)
+    expect(mockCloseConnection).toHaveBeenCalledTimes(1)
+  });
+
+  test('Receiver startSubmissionReceiver - Should close connection on Should call SIGTERM', async () => {
+    jest.spyOn(process, 'exit').mockImplementation()
+
+    require('../../../../../app/messaging/receivers')
+
+    process.emit('SIGTERM');
+    expect(mockSubscribe).toHaveBeenCalledTimes(0)
+    expect(mockCloseConnection).toHaveBeenCalledTimes(1)
+  });
 })
