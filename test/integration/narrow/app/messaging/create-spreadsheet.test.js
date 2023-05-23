@@ -3,7 +3,6 @@ afterEach(() => {
   jest.clearAllMocks()
 })
 describe('Upload to create spreadsheet tests', () => {
-  // proberly mock exceljs!
   const mockWriteBuffer = jest.fn(async () => { return {} })
   jest.mock('exceljs', () => {
     return {
@@ -33,7 +32,6 @@ describe('Upload to create spreadsheet tests', () => {
     }
   })
 
-  // mock blob storage
   const mockUploadFile = jest.fn(async () => { return null })
   jest.mock('../../../../../app/services/blob-storage', () => {
     return {
@@ -41,7 +39,6 @@ describe('Upload to create spreadsheet tests', () => {
     }
   })
 
-  // mock senders
   const mockSendFileCreated = jest.fn(async (message) => { return null })
   jest.mock('../../../../../app/messaging/senders', () => {
     return {
@@ -49,7 +46,6 @@ describe('Upload to create spreadsheet tests', () => {
     }
   })
 
-  // mock app insights
   const appInsights = require('../../../../../app/services/app-insights')
   appInsights.logException = jest.fn((_err, _sessionId) => { })
   const submissionReceiver = {
