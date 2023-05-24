@@ -86,7 +86,63 @@ describe('Upload to create spreadsheet tests', () => {
     expect(mockSendFileCreated).toHaveBeenCalledTimes(1) // sends the message
   })
 
-  test('Should throw error call abandonMessage', async () => { // this one's actually ok!
+  test('Should run successfully - Without defaultColumnWidth', async () => {
+    const createSpreadsheet = require('../../../../../app/messaging/create-spreadsheet')
+    await createSpreadsheet({
+      correlationId: '12341234',
+      body: {
+        spreadsheet: {
+          filename: 'test.xlsx',
+          worksheets: [
+            {
+              title: '',
+              defaultColumnWidth: null,
+              protectPassword: '123123',
+              rows: [
+                { row: {} }
+              ],
+              hideEmptyRows: null
+            }
+          ]
+        }
+      }
+    }, submissionReceiver);
+
+    expect(mockWriteBuffer).toHaveBeenCalledTimes(1) // creates the file
+    expect(mockUploadFile).toHaveBeenCalledTimes(1) // uploads the file
+    expect(submissionReceiver.completeMessage).toHaveBeenCalledTimes(1) // completes the message
+    expect(mockSendFileCreated).toHaveBeenCalledTimes(1) // sends the message
+  })
+
+  test('Should run successfully - AND hide empty rows', async () => {
+    const createSpreadsheet = require('../../../../../app/messaging/create-spreadsheet')
+    await createSpreadsheet({
+      correlationId: '12341234',
+      body: {
+        spreadsheet: {
+          filename: 'test.xlsx',
+          worksheets: [
+            {
+              title: '',
+              defaultColumnWidth: null,
+              protectPassword: '123123',
+              rows: [
+                { row: {} }
+              ],
+              hideEmptyRows: true
+            }
+          ]
+        }
+      }
+    }, submissionReceiver);
+
+    expect(mockWriteBuffer).toHaveBeenCalledTimes(1) // creates the file
+    expect(mockUploadFile).toHaveBeenCalledTimes(1) // uploads the file
+    expect(submissionReceiver.completeMessage).toHaveBeenCalledTimes(1) // completes the message
+    expect(mockSendFileCreated).toHaveBeenCalledTimes(1) // sends the message
+  })
+
+  test('Should throw error and call abandonMessage', async () => { // this one's actually ok!
     const createSpreadsheet = require('../../../../../app/messaging/create-spreadsheet')
     await expect(createSpreadsheet('', submissionReceiver)).rejected
     expect(appInsights.logException).toHaveBeenCalledTimes(1)
