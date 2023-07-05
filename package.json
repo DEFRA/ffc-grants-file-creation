@@ -22,7 +22,7 @@
     "joi": "^17.4.3"
   },
   "overrides": {
-
+    "semver": "^7.5.2"
   },
   "devDependencies": {
     "jest": "^27.2.5",
