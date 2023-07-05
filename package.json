@@ -22,13 +22,10 @@
     "joi": "^17.4.3"
   },
   "overrides": {
-    "@azure/storage-blob": {
-      "@azure/core-http": {
-        "tough-cookie": "^4.0.0"
-      }
-    },
     "semver": "^7.5.3",
-    "word-wrap": "^1.2.3"
+    "word-wrap": "^1.2.3",
+    "tough-cookie": "4.0.0",
+    "optionator": "^0.8.3"
   },
   "devDependencies": {
     "jest": "^27.2.5",
