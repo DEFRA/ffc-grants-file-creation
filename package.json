@@ -21,6 +21,13 @@
     "ffc-messaging": "^2.5.2",
     "joi": "^17.4.3"
   },
+  "overrides": {
+    "@azure/identity": {
+      "jsonwebtoken": "9.0.0",
+      "fast-xml-parser": ">=4.2.4"
+    },
+    "semver": "7.5.3"
+  },
   "devDependencies": {
     "jest": "^27.2.5",
     "jest-junit": "^13.0.0",
