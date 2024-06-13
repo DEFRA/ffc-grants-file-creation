@@ -1,6 +1,6 @@
 {
   "name": "ffc-grants-file-creation",
-  "version": "1.9.10",
+  "version": "1.9.11",
   "description": "FFC Grants file creation microservice",
   "homepage": "https://github.com/DEFRA/ffc-grants-file-creation",
   "main": "app/index.js",
@@ -13,7 +13,7 @@
   "contributors": [],
   "license": "OGL-UK-3.0",
   "dependencies": {
-    "@azure/identity": "^3.0.0",
+    "@azure/identity": "^4.2.1",
     "@azure/storage-blob": "^12.9.0",
     "@hapi/hapi": "^20.2.2",
     "applicationinsights": "^1.8.10",
