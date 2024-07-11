@@ -12,9 +12,9 @@ ignore:
         reason: None Given
         expires: 2024-07-13T08:54:52.465Z
         created: 2024-06-13T08:54:52.470Z
-    SNYK-SNYK-JS-ASYNC-7414156:
-    - '*':
-        reason: None Given
-        expires: 2024-08-13T08:54:52.465Z
-        created: 2024-06-13T08:54:52.470Z
+  SNYK-JS-ASYNC-7414156:
+  - '*':
+      reason: None Given
+      expires: 2024-08-13T08:54:52.465Z
+      created: 2024-06-13T08:54:52.470Z
 patch: {}
